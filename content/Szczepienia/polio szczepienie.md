@@ -1,0 +1,84 @@
+---
+Done: false
+sr-due: 2025-03-30
+sr-interval: 16
+sr-ease: 250
+---
+#powtórki 
+### Polio w polsce
+ostatni taki przypadek poliomyelitis zarejestrowano ponad 30 lat temu Zachorowania na poliomyelitis nadal występują w niektórych krajach Azji Afganistan, Pakistan
+
+
+### Szczpionki 
+Są to szczepionki przeznaczone do wstrzykiwań **domięśniowych**, ale **dopuszcza** się też podanie **podskórne**. 
+- (**OPV** **żywa** **wycofano** ją z użycia do realizacji szczepień obowiązkowych od kwietnia 2016 roku. Nie jest również rekomendowana do szczepień rutynowych, .
+
+### Schemat 
+- **niemowlęta** od **7** **tygodnia** życia kończą się w **6** r.z
+- anki:: Polio schemat 4x dawka - 4 m.ż II dawka 5-6 m.z. (po 8 tyg) III dawka 16-18 m.ż. w **6** r.z. 1 dawka przypomianjąca
+-  Dlatego stosując jedynie szczepionki IPV **istnieje** **ryzyko** **bezobjawowego** **przenoszenia** **wirusów** **polio** w przypadku **ewentualnego** **zakażenia** osoby **zaszczepionej**. 
+- odaniem dawki przypominającej IPV uzupełnić do ukończenia **19** **r**.ż.
+
+### Przeciwwskazana
+ przeciwwskazaniami **neomycynę**, **streptomycynę** i **polimyksynę** B.
+### Schemat polio 
+temat:: polio,schemat 
+dział::
+
+od 7 tygodnia życia (**niemowlaki**) do 6 rż (jak MMR)
+3 + 1 (4x)
+4 mż → 5-6 mż → 16-18 mż → 6 mż
+![[IMG_20250316_214900.jpg]]
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+### ?
+
+
+
+
+
+
+

@@ -1,3 +1,119 @@
 @use "./variables.scss" as *;
 
+// Sidebar - card look
+.toc-content {
+    li.depth-0 {
+        padding: 0.4rem 0.5rem;
+        border-radius: 6px;
+        transition: background 0.15s ease;
+        color: #000000;
+
+        a {
+            color: #000000;
+        }
+
+        &:hover {
+            background: rgba(94, 129, 172, 0.12);
+        }
+    }
+
+    // Aktywny nagłówek w spisie treści
+    li.depth-0.in-view>a,
+    li.depth-0>a.in-view {
+        color: #000000;
+        font-weight: 700;
+    }
+}
+
+.graph {
+    flex-shrink: 0;
+
+    .graph-outer {
+        max-height: 140px;
+
+        canvas {
+            max-height: 140px !important;
+        }
+    }
+}
+
+.toc {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    max-height: none;
+}
+
+// Przycisk z tytułem - zawsze widoczny, nigdy się nie chowa
+.toc-header {
+    flex-shrink: 0;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem;
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    h3 {
+        margin: 0;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+}
+
+// Lista - to jedyna część, która się zwija i scrolluje
+.toc-content {
+    flex: 1 1 auto;
+    overflow-y: auto !important;
+    font-size: 0.85rem;
+
+    li.depth-0 {
+        padding: 0.3rem 0.5rem;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--lightgray);
+        border-radius: 3px;
+    }
+}
+
+// Zwijanie TOC: ukrywa tylko listę po kliknięciu nagłówka, sam tytuł zostaje
+.toc-header {
+    cursor: pointer;
+}
+
+.toc.collapsed .toc-content,
+.toc-header[aria-expanded="false"]+.toc-content,
+.toc button[aria-expanded="false"]+.toc-content {
+    display: none !important;
+    overflow: hidden !important;
+    flex: 0 0 auto;
+}
+
+// Spolszczenie etykiet UI bez zmian w logice komponentów
+.toc-header h3 {
+    font-size: 0;
+}
+
+.toc-header h3::before {
+    content: "Spis treści";
+    font-size: 1rem;
+}
+
+.search-button p,
+.search-button span {
+    font-size: 0;
+}
+
+.search-button p::before,
+.search-button span::before {
+    content: "Wyszukaj";
+    font-size: 0.9rem;
+}
+
 // put your custom CSS here!
