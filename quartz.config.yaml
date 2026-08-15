@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: pl-PL
-  baseUrl: medycyna.rodzinna
+  baseUrl: adam9331.github.io/medycyna-rodzinna
   ignorePatterns:
     - private
     - templates
