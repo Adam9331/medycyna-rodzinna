@@ -1,7 +1,8 @@
 ---
 publish: true
+permalink: /urologia/bol-moszny/
 created: 2024-07-12T06:12:12.191Z
-modified: 2026-08-16T08:33:07.781Z
+modified: 2026-08-16T08:42:47.670Z
 ---
 
 ![[attachments/Pasted image 20240712102200.png]]
