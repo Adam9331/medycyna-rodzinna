@@ -118,4 +118,66 @@
     font-size: 0.9rem;
 }
 
+strong,
+b,
+mark {
+    font-weight: 700;
+    color: inherit;
+    background: none;
+}
+
+// Powiększanie obrazków po najechaniu
+img {
+    transition: transform 0.2s ease;
+    cursor: zoom-in;
+}
+
+img:hover {
+    transform: scale(1.8);
+    position: relative;
+    z-index: 10;
+}
+
+// Tagi - różnokolorowe plakietki markerowe
+a[href^="/tags/"] {
+    display: inline-block;
+    padding: 0.1em 0.5em;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #000000;
+    margin: 0.1em 0.15em 0.1em 0;
+}
+
+a[href^="/tags/"]:nth-of-type(6n+1) {
+    background: rgba(217, 154, 78, 0.3);
+}
+
+// pomarańczowy
+a[href^="/tags/"]:nth-of-type(6n+2) {
+    background: rgba(111, 177, 160, 0.3);
+}
+
+// zielony
+a[href^="/tags/"]:nth-of-type(6n+3) {
+    background: rgba(123, 167, 217, 0.3);
+}
+
+// niebieski
+a[href^="/tags/"]:nth-of-type(6n+4) {
+    background: rgba(217, 142, 156, 0.3);
+}
+
+// różowy
+a[href^="/tags/"]:nth-of-type(6n+5) {
+    background: rgba(201, 160, 220, 0.3);
+}
+
+// fioletowy
+a[href^="/tags/"]:nth-of-type(6n+0) {
+    background: rgba(159, 209, 163, 0.3);
+}
+
+// miętowy
+
 // put your custom CSS here!
