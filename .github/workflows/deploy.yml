@@ -42,6 +42,26 @@ jobs:
         run: npm ci
       - name: Install Quartz plugins
         run: npx quartz plugin install
+      - name: Inject premium password
+        env:
+          PREMIUM_PASSWORD: ${{ secrets.PREMIUM_PASSWORD }}
+        run: |
+          python3 - <<'EOF'
+          import os, pathlib
+
+          password = os.environ["PREMIUM_PASSWORD"]
+          placeholder = "__PREMIUM_PASSWORD__"
+          content_dir = pathlib.Path("content")
+          count = 0
+
+          for path in content_dir.rglob("*.md"):
+              text = path.read_text(encoding="utf-8")
+              if placeholder in text:
+                  path.write_text(text.replace(placeholder, password), encoding="utf-8")
+                  count += 1
+
+          print(f"Podmieniono hasło premium w {count} plikach")
+          EOF
       - name: Build Quartz
         run: npx quartz build
       - name: Upload artifact

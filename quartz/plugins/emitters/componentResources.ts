@@ -6,6 +6,8 @@ import { QuartzEmitterPlugin } from "../types"
 import spaRouterScript from "../../components/scripts/spa.inline"
 // @ts-ignore
 import popoverScript from "../../components/scripts/popover.inline"
+// @ts-ignore
+import premiumUnlockScript from "../../components/scripts/premium-unlock.inline"
 import baseStyles from "../../styles/base.scss"
 import customStyles from "../../styles/custom.scss"
 import popoverStyle from "../../components/styles/popover.scss"
@@ -89,6 +91,9 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
     componentResources.afterDOMLoaded.push(popoverScript)
     componentResources.css.push(popoverStyle)
   }
+
+  // paywall: cicho odblokowuje treści premium zalogowanym, aktywnym subskrybentom
+  componentResources.afterDOMLoaded.push(premiumUnlockScript)
 
   if (cfg.analytics?.provider === "google") {
     const tagId = cfg.analytics.tagId

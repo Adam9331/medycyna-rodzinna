@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Logowanie — Medycyna Rodzinna</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 4px;
+            margin: 12px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .msg {
+            color: #666;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .error {
+            color: #c0392b;
+        }
+
+        a {
+            color: #1e5f6e;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <!-- Clerk -->
+    <script defer crossorigin="anonymous"
+        src="https://tough-walrus-9689.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript">
+        </script>
+    <script defer crossorigin="anonymous"
+        data-clerk-publishable-key="pk_test_dG91Z2gtd2FscnVzLTk2ODkuY2xlcmsuYWNjb3VudHMuZGV2JA"
+        src="https://tough-walrus-9689.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js"
+        type="text/javascript">
+        </script>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+        const EMAILJS_SERVICE_ID = "service_7u6mwah";
+        const EMAILJS_TEMPLATE_ID = "template_7x3bvjb";
+        const EMAILJS_PUBLIC_KEY = "AeDwjeMU-SWzZoXx5";
+        const CHECK_SUBSCRIPTION_URL = "https://checksubscription-zxtlz2nofa-uc.a.run.app";
+
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+        let generatedCode = null;
+
+        function generateCode() {
+            return Math.floor(1000 + Math.random() * 9000).toString(); // 4 cyfry
+        }
+
+        function renderCodeForm(email) {
+            document.getElementById('app').innerHTML = `
+                <h2>Sprawdź skrzynkę pocztową</h2>
+                <p>Wysłaliśmy 4-cyfrowy kod na adres: <strong>${email}</strong></p>
+                <input type="text" id="codeInput" maxlength="4" placeholder="0000" inputmode="numeric" />
+                <button id="verifyBtn">Zweryfikuj</button>
+                <p class="msg" id="statusMsg"></p>
+            `;
+            document.getElementById('verifyBtn').addEventListener('click', () => {
+                const entered = document.getElementById('codeInput').value.trim();
+                const statusMsg = document.getElementById('statusMsg');
+                if (entered === generatedCode) {
+                    sessionStorage.setItem('emailVerified', 'true');
+                    showProtectedContent();
+                } else {
+                    statusMsg.textContent = "Nieprawidłowy kod, spróbuj ponownie.";
+                    statusMsg.className = "msg error";
+                }
+            });
+        }
+
+        async function sendVerificationEmail(email) {
+            generatedCode = generateCode();
+            const expiresAt = new Date(Date.now() + 10 * 60000).toLocaleTimeString('pl-PL');
+
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    passcode: generatedCode,
+                    time: expiresAt,
+                    email: email,
+                });
+                renderCodeForm(email);
+            } catch (err) {
+                document.getElementById('app').innerHTML = `<p class="error">Błąd wysyłki e-maila: ${err.text || err}</p>`;
+            }
+        }
+
+        async function showProtectedContent() {
+            document.getElementById('app').innerHTML = `
+                <h2>Witaj! 🎉</h2>
+                <p id="subStatus">Sprawdzam status subskrypcji…</p>
+                <div id="user-button"></div>
+                <p><a href="/">Wróć do strony głównej</a></p>
+            `;
+            Clerk.mountUserButton(document.getElementById('user-button'));
+
+            const subStatus = document.getElementById('subStatus');
+            try {
+                const token = await Clerk.session.getToken();
+                const response = await fetch(CHECK_SUBSCRIPTION_URL, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                const data = await response.json();
+                subStatus.textContent = data.subscriptionActive
+                    ? "Twoja subskrypcja jest aktywna — treści premium odblokują się automatycznie."
+                    : "Nie masz jeszcze aktywnej subskrypcji.";
+            } catch (err) {
+                subStatus.textContent = "Nie udało się sprawdzić statusu subskrypcji.";
+            }
+        }
+
+        window.addEventListener('load', async function () {
+            const { plPL } = await import('https://esm.sh/@clerk/localizations');
+
+            await Clerk.load({
+                ui: { ClerkUI: window.__internal_ClerkUICtor },
+                localization: plPL,
+            });
+
+            if (Clerk.isSignedIn) {
+                const email = Clerk.user.primaryEmailAddress.emailAddress;
+                if (sessionStorage.getItem('emailVerified') === 'true') {
+                    showProtectedContent();
+                } else {
+                    document.getElementById('app').innerHTML = `<p>Wysyłanie kodu weryfikacyjnego...</p>`;
+                    await sendVerificationEmail(email);
+                }
+            } else {
+                sessionStorage.removeItem('emailVerified');
+                document.getElementById('app').innerHTML = `<div id="sign-in"></div>`;
+                Clerk.mountSignIn(document.getElementById('sign-in'));
+            }
+        });
+    </script>
+</body>
+
+</html>
