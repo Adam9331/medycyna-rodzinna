@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: system-ui, sans-serif;
-            max-width: 400px;
+            max-width: 460px;
             margin: 60px auto;
             padding: 20px;
         }
@@ -33,6 +33,11 @@
             cursor: pointer;
         }
 
+        button:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+
         .msg {
             color: #666;
             font-size: 14px;
@@ -45,6 +50,44 @@
 
         a {
             color: #1e5f6e;
+        }
+
+        .plans {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .plan-card {
+            flex: 1;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .plan-card.selected {
+            border-color: #1a1a1a;
+        }
+
+        .plan-card h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .plan-card .price {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .plan-card .note {
+            font-size: 12px;
+            color: #888;
+        }
+
+        #payment-element {
+            margin: 20px 0;
         }
     </style>
 </head>
@@ -65,11 +108,24 @@
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
+    <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+
     <script>
         const EMAILJS_SERVICE_ID = "service_7u6mwah";
         const EMAILJS_TEMPLATE_ID = "template_7x3bvjb";
         const EMAILJS_PUBLIC_KEY = "AeDwjeMU-SWzZoXx5";
         const CHECK_SUBSCRIPTION_URL = "https://checksubscription-zxtlz2nofa-uc.a.run.app";
+        const CREATE_SUBSCRIPTION_URL = "https://us-central1-medycyna-rodzinna.cloudfunctions.net/createSubscription";
+        const STRIPE_PUBLISHABLE_KEY = "pk_test_51UDnlkRJp5FrnUgdWUfF4gSH3xM2D8a32HBQa9H9M2wRDKiwguevuo34ebWz8SpOe60T0PqWEjNyE2zflhWvzzNl00GH1UODSL";
+        const PLANS = {
+            monthly: { priceId: "price_1UDnz1RJp5FrnUgdIXbyfJwl", label: "Miesięczny", price: "35 zł / mies." },
+            annual: { priceId: "price_1UDo23RJp5FrnUgdYcLSFMjh", label: "Roczny", price: "315 zł / rok", note: "oszczędzasz 25%" },
+        };
+
+        const stripeJs = Stripe(STRIPE_PUBLISHABLE_KEY);
+        let elements = null;
+        let selectedPlanKey = "monthly";
 
         emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
@@ -121,10 +177,29 @@
                 <h2>Witaj! 🎉</h2>
                 <p id="subStatus">Sprawdzam status subskrypcji…</p>
                 <div id="user-button"></div>
+                <div id="subscriptionArea"></div>
                 <p><a href="/">Wróć do strony głównej</a></p>
             `;
             Clerk.mountUserButton(document.getElementById('user-button'));
 
+            // Powrót z przekierowania płatności (np. BLIK) — Stripe dokłada te parametry do URL
+            const params = new URLSearchParams(window.location.search);
+            const redirectStatus = params.get('redirect_status');
+            if (redirectStatus) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+                if (redirectStatus === 'succeeded' || redirectStatus === 'processing') {
+                    document.getElementById('subscriptionArea').innerHTML =
+                        `<p class="msg">Płatność ${redirectStatus === 'succeeded' ? 'zakończona sukcesem' : 'jest przetwarzana'} — sprawdzam dostęp…</p>`;
+                } else {
+                    document.getElementById('subscriptionArea').innerHTML =
+                        `<p class="msg error">Płatność nie powiodła się (${redirectStatus}). Spróbuj ponownie.</p>`;
+                }
+            }
+
+            await refreshSubscriptionStatus();
+        }
+
+        async function refreshSubscriptionStatus() {
             const subStatus = document.getElementById('subStatus');
             try {
                 const token = await Clerk.session.getToken();
@@ -132,11 +207,109 @@
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const data = await response.json();
-                subStatus.textContent = data.subscriptionActive
-                    ? "Twoja subskrypcja jest aktywna — treści premium odblokują się automatycznie."
-                    : "Nie masz jeszcze aktywnej subskrypcji.";
+
+                if (data.subscriptionActive) {
+                    subStatus.textContent = "Twoja subskrypcja jest aktywna — treści premium odblokują się automatycznie.";
+                    document.getElementById('subscriptionArea').innerHTML = '';
+                } else {
+                    subStatus.textContent = "Nie masz jeszcze aktywnej subskrypcji.";
+                    renderPlanPicker();
+                }
             } catch (err) {
                 subStatus.textContent = "Nie udało się sprawdzić statusu subskrypcji.";
+            }
+        }
+
+        function renderPlanPicker() {
+            const area = document.getElementById('subscriptionArea');
+            area.innerHTML = `
+                <div class="plans">
+                    ${Object.entries(PLANS).map(([key, plan]) => `
+                        <div class="plan-card ${key === selectedPlanKey ? 'selected' : ''}" data-plan="${key}">
+                            <h3>${plan.label}</h3>
+                            <div class="price">${plan.price}</div>
+                            ${plan.note ? `<div class="note">${plan.note}</div>` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+                <button id="startPaymentBtn">Wybierz plan i zapłać</button>
+                <p class="msg" id="paymentMsg"></p>
+                <div id="payment-element"></div>
+                <button id="confirmPaymentBtn" style="display:none;">Zapłać</button>
+            `;
+
+            area.querySelectorAll('.plan-card').forEach((card) => {
+                card.addEventListener('click', () => {
+                    selectedPlanKey = card.dataset.plan;
+                    area.querySelectorAll('.plan-card').forEach((c) => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+            });
+
+            document.getElementById('startPaymentBtn').addEventListener('click', startPayment);
+        }
+
+        async function startPayment() {
+            const paymentMsg = document.getElementById('paymentMsg');
+            const startBtn = document.getElementById('startPaymentBtn');
+            startBtn.disabled = true;
+            paymentMsg.textContent = "Przygotowuję płatność…";
+            paymentMsg.className = "msg";
+
+            try {
+                const token = await Clerk.session.getToken();
+                const email = Clerk.user.primaryEmailAddress.emailAddress;
+                const response = await fetch(CREATE_SUBSCRIPTION_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ priceId: PLANS[selectedPlanKey].priceId, email }),
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error || `Błąd serwera (${response.status})`);
+                }
+
+                const { clientSecret } = await response.json();
+
+                elements = stripeJs.elements({ clientSecret, locale: 'pl' });
+                const paymentElement = elements.create('payment');
+                paymentElement.mount('#payment-element');
+
+                startBtn.style.display = 'none';
+                document.getElementById('confirmPaymentBtn').style.display = 'block';
+                document.getElementById('confirmPaymentBtn').addEventListener('click', confirmPayment);
+                paymentMsg.textContent = "";
+            } catch (err) {
+                paymentMsg.textContent = `Błąd: ${err.message}`;
+                paymentMsg.className = "msg error";
+                startBtn.disabled = false;
+            }
+        }
+
+        async function confirmPayment() {
+            const paymentMsg = document.getElementById('paymentMsg');
+            const confirmBtn = document.getElementById('confirmPaymentBtn');
+            confirmBtn.disabled = true;
+            paymentMsg.textContent = "Przetwarzam płatność…";
+            paymentMsg.className = "msg";
+
+            const { error } = await stripeJs.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: window.location.origin + window.location.pathname,
+                },
+            });
+
+            // Jeśli metoda płatności nie wymaga przekierowania (np. karta bez 3DS),
+            // dotrzemy tutaj tylko w przypadku błędu — sukces przenosi na return_url.
+            if (error) {
+                paymentMsg.textContent = `Błąd płatności: ${error.message}`;
+                paymentMsg.className = "msg error";
+                confirmBtn.disabled = false;
             }
         }
 
