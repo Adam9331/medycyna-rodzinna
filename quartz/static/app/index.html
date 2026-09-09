@@ -86,6 +86,35 @@
             color: #888;
         }
 
+        .modes {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .mode-card {
+            flex: 1;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+        }
+
+        .mode-card.selected {
+            border-color: #1a1a1a;
+        }
+
+        .mode-card h4 {
+            margin: 0 0 4px;
+            font-size: 14px;
+        }
+
+        .mode-card p {
+            margin: 0;
+            font-size: 12px;
+            color: #777;
+        }
+
         #payment-element {
             margin: 20px 0;
         }
@@ -117,15 +146,29 @@
         const EMAILJS_PUBLIC_KEY = "AeDwjeMU-SWzZoXx5";
         const CHECK_SUBSCRIPTION_URL = "https://checksubscription-zxtlz2nofa-uc.a.run.app";
         const CREATE_SUBSCRIPTION_URL = "https://us-central1-medycyna-rodzinna.cloudfunctions.net/createSubscription";
+        const CREATE_ONE_TIME_URL = "https://us-central1-medycyna-rodzinna.cloudfunctions.net/createOneTimePayment";
         const STRIPE_PUBLISHABLE_KEY = "pk_test_51UDnlkRJp5FrnUgdWUfF4gSH3xM2D8a32HBQa9H9M2wRDKiwguevuo34ebWz8SpOe60T0PqWEjNyE2zflhWvzzNl00GH1UODSL";
         const PLANS = {
             monthly: { priceId: "price_1UDnz1RJp5FrnUgdIXbyfJwl", label: "Miesięczny", price: "35 zł / mies." },
             annual: { priceId: "price_1UDo23RJp5FrnUgdYcLSFMjh", label: "Roczny", price: "315 zł / rok", note: "oszczędzasz 25%" },
         };
+        const PAYMENT_MODES = {
+            onetime: {
+                label: "Zapłać raz",
+                description: "Karta, BLIK, Klarna — dostęp na czas trwania planu, bez auto-odnowienia.",
+                url: CREATE_ONE_TIME_URL,
+            },
+            recurring: {
+                label: "Subskrybuj automatycznie",
+                description: "Tylko karta — sama się odnawia co okres, nic nie musisz robić.",
+                url: CREATE_SUBSCRIPTION_URL,
+            },
+        };
 
         const stripeJs = Stripe(STRIPE_PUBLISHABLE_KEY);
         let elements = null;
         let selectedPlanKey = "monthly";
+        let selectedModeKey = "onetime";
 
         emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
@@ -232,6 +275,14 @@
                         </div>
                     `).join('')}
                 </div>
+                <div class="modes">
+                    ${Object.entries(PAYMENT_MODES).map(([key, mode]) => `
+                        <div class="mode-card ${key === selectedModeKey ? 'selected' : ''}" data-mode="${key}">
+                            <h4>${mode.label}</h4>
+                            <p>${mode.description}</p>
+                        </div>
+                    `).join('')}
+                </div>
                 <button id="startPaymentBtn">Wybierz plan i zapłać</button>
                 <p class="msg" id="paymentMsg"></p>
                 <div id="payment-element"></div>
@@ -242,6 +293,14 @@
                 card.addEventListener('click', () => {
                     selectedPlanKey = card.dataset.plan;
                     area.querySelectorAll('.plan-card').forEach((c) => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+            });
+
+            area.querySelectorAll('.mode-card').forEach((card) => {
+                card.addEventListener('click', () => {
+                    selectedModeKey = card.dataset.mode;
+                    area.querySelectorAll('.mode-card').forEach((c) => c.classList.remove('selected'));
                     card.classList.add('selected');
                 });
             });
@@ -259,7 +318,7 @@
             try {
                 const token = await Clerk.session.getToken();
                 const email = Clerk.user.primaryEmailAddress.emailAddress;
-                const response = await fetch(CREATE_SUBSCRIPTION_URL, {
+                const response = await fetch(PAYMENT_MODES[selectedModeKey].url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
