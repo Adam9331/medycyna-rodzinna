@@ -230,8 +230,9 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
-        Discord Community: https://discord.gg/cRFFHYye7t
+        Polityka prywatności: /polityka-prywatnosci
+        Usuwanie danych: /usuwanie-danych
+        Kontakt: mailto:kontakt@medycynarodzinna.info
     layout:
       position: footer
       priority: 50
