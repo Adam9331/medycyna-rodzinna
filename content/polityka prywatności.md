@@ -3,7 +3,7 @@ publish: true
 created: 2026-09-23T06:14:48.783Z
 modified: 2026-09-24T03:59:00.869Z
 published: 2026-09-24T03:59:00.869Z
-unlisted: "true"
+unlisted: true
 ---
 
 # Polityka prywatności
