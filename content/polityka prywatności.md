@@ -1,8 +1,9 @@
 ---
 publish: true
 created: 2026-09-23T06:14:48.783Z
-modified: 2026-09-23T06:16:25.471Z
-published: 2026-09-23T06:16:25.471Z
+modified: 2026-09-24T03:46:51.051Z
+published: 2026-09-24T03:46:51.051Z
+unlisted: "true"
 ---
 
 # Polityka prywatności

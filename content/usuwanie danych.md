@@ -1,8 +1,9 @@
 ---
 publish: true
 created: 2026-09-23T06:16:48.510Z
-modified: 2026-09-23T06:17:18.790Z
-published: 2026-09-23T06:17:18.790Z
+modified: 2026-09-24T03:46:34.756Z
+published: 2026-09-24T03:46:34.756Z
+unlisted: "true"
 ---
 
 # Jak usunąć swoje dane / konto
