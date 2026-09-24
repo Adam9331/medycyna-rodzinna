@@ -180,4 +180,9 @@ a[href^="/tags/"]:nth-of-type(6n+0) {
 
 // miętowy
 
+// Ukrywa tekst "Stworzone z użyciem Quartz..." w stopce
+footer p:first-of-type {
+    display: none;
+}
+
 // put your custom CSS here!
