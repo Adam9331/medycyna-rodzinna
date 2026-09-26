@@ -1,8 +1,8 @@
 ---
 publish: true
 created: 2026-09-26T06:27:52.373Z
-modified: 2026-09-26T06:28:16.661Z
-published: 2026-09-26T06:28:16.661Z
+modified: 2026-09-26T07:17:09.830Z
+published: 2026-09-26T07:17:09.830Z
 unlisted: true
 ---
 
@@ -14,7 +14,7 @@ unlisted: true
 
 1.1. Niniejszy regulamin określa zasady korzystania z serwisu internetowego dostępnego pod adresem medycynarodzinna.info (dalej: „Serwis").
 
-1.2. Administratorem Serwisu jest Adam Dziób, kontakt: kontakt@medycynarodzinna.info.
+1.2. Administratorem Serwisu jest Adam Dziób Praktyka Lekarza Rodzinnego, Kielce, NIP: 9591943501, kontakt: <kontakt@medycynarodzinna.info>.
 
 1.3. Serwis stanowi platformę edukacyjną skierowaną do lekarzy i osób związanych zawodowo z medycyną, udostępniającą materiały z zakresu medycyny rodzinnej.
 
