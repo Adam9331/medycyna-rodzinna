@@ -230,6 +230,7 @@ plugins:
     enabled: true
     options:
       links:
+        Regulamin: /regulamin
         Polityka prywatności: /polityka-prywatności
         Usuwanie danych: /usuwanie-danych
         Kontakt: mailto:kontakt@medycynarodzinna.info
