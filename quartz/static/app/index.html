@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>Logowanie — Medycyna Rodzinna</title>
+    <link rel="preconnect" href="https://tough-walrus-9689.clerk.accounts.dev" crossorigin />
+    <link rel="preconnect" href="https://esm.sh" crossorigin />
     <style>
         body {
             font-family: system-ui, sans-serif;
@@ -135,12 +137,15 @@
         </script>
 
     <!-- EmailJS -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     <!-- Stripe -->
-    <script src="https://js.stripe.com/v3/"></script>
+    <script defer src="https://js.stripe.com/v3/"></script>
 
     <script>
+        // odpalamy od razu, równolegle z ładowaniem Clerka — nie czekamy do window.load
+        const localizationPromise = import('https://esm.sh/@clerk/localizations');
+
         const EMAILJS_SERVICE_ID = "service_7u6mwah";
         const EMAILJS_TEMPLATE_ID = "template_7x3bvjb";
         const EMAILJS_PUBLIC_KEY = "AeDwjeMU-SWzZoXx5";
@@ -165,12 +170,13 @@
             },
         };
 
-        const stripeJs = Stripe(STRIPE_PUBLISHABLE_KEY);
+        // Stripe i EmailJS ładują się teraz z "defer", więc ich globalne obiekty
+        // (Stripe, emailjs) nie istnieją jeszcze w momencie parsowania tego
+        // <script> — inicjalizujemy je dopiero w DOMContentLoaded poniżej.
+        let stripeJs = null;
         let elements = null;
         let selectedPlanKey = "monthly";
         let selectedModeKey = "onetime";
-
-        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
         let generatedCode = null;
 
@@ -372,8 +378,31 @@
             }
         }
 
-        window.addEventListener('load', async function () {
-            const { plPL } = await import('https://esm.sh/@clerk/localizations');
+        // Usuwa link "Nie masz konta? Zarejestruj się" spod formularza logowania —
+        // logowanie idzie tylko przez Google/Facebook (i e-mail), więc osobna
+        // rejestracja jest zbędna i tylko myli. Działa niezależnie od tego, jak
+        // Clerk nazwie swoje wewnętrzne klasy CSS (szuka linku po href).
+        function hideSignUpPrompt(root) {
+            root.querySelectorAll('a[href*="sign-up"]').forEach((a) => {
+                const container = a.closest('p, div') || a;
+                container.style.display = 'none';
+            });
+        }
+
+        function watchForSignUpPrompt(root) {
+            hideSignUpPrompt(root);
+            const obs = new MutationObserver(() => hideSignUpPrompt(root));
+            obs.observe(root, { childList: true, subtree: true });
+        }
+
+        async function initApp() {
+            // Stripe/EmailJS ładują się z "defer" — do teraz ich globalne obiekty
+            // już istnieją (defer kończy się przed DOMContentLoaded)
+            stripeJs = Stripe(STRIPE_PUBLISHABLE_KEY);
+            emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+            // to zaczęło się ładować równolegle z Clerkiem zaraz na starcie strony
+            const { plPL } = await localizationPromise;
 
             await Clerk.load({
                 ui: { ClerkUI: window.__internal_ClerkUICtor },
@@ -391,9 +420,17 @@
             } else {
                 sessionStorage.removeItem('emailVerified');
                 document.getElementById('app').innerHTML = `<div id="sign-in"></div>`;
-                Clerk.mountSignIn(document.getElementById('sign-in'));
+                const signInRoot = document.getElementById('sign-in');
+                Clerk.mountSignIn(signInRoot);
+                watchForSignUpPrompt(signInRoot);
             }
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
     </script>
 </body>
 

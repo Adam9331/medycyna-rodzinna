@@ -23,8 +23,8 @@ function buildCard(): string {
       <p class="mr-paywall-eyebrow">Treść premium</p>
       <h3 class="mr-paywall-title">Zobacz pełną zawartość</h3>
       <p class="mr-paywall-text">Ten materiał jest dostępny wyłącznie dla zalogowanych subskrybentów Medycyny Rodzinnej.</p>
-      <a class="mr-paywall-cta" href="/static/app/">Zaloguj się</a>
-      <p class="mr-paywall-sub">Nie masz konta? <a href="/static/app/">Wykup subskrypcję</a></p>
+      <a class="mr-paywall-cta" href="/static/app/" data-router-ignore>Zaloguj się</a>
+      <p class="mr-paywall-sub">Nie masz konta? <a href="/static/app/" data-router-ignore>Wykup subskrypcję</a></p>
       <button type="button" class="mr-paywall-manual-toggle">Mam kod dostępu</button>
     </div>
   `
@@ -64,7 +64,19 @@ function enhance(container: Element) {
   })
 }
 
+// Link "Zaloguj się" w stopce (z pluginu @quartz-community/footer) trafia w
+// zwykły SPA-router Quartza, który próbuje go pobrać i "wmorfować" w
+// bieżącą stronę — a to osobna, statyczna strona logowania Clerk, więc
+// morph się wiesza i widać pusty biały ekran. data-router-ignore każe
+// routerowi zostawić link w spokoju (normalne, pełne przeładowanie).
+function patchLoginLinks() {
+  document.querySelectorAll<HTMLAnchorElement>('a[href="/static/app/"]').forEach((a) => {
+    if (!a.hasAttribute("data-router-ignore")) a.setAttribute("data-router-ignore", "")
+  })
+}
+
 function scanAndEnhance() {
+  patchLoginLinks()
   document.querySelectorAll(".encrypted-page").forEach((el) => enhance(el))
 }
 
