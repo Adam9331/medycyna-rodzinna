@@ -185,4 +185,133 @@ footer p:first-of-type {
     display: none;
 }
 
+// Paywall premium (styl mp.pl): rozmyty "podgląd" tekstu + karta z CTA,
+// nakładane przez paywall-ui.inline.ts na domyślny prompt encrypted-pages
+.encrypted-page {
+    min-height: 420px;
+    padding: 0;
+    align-items: flex-start;
+}
+
+.encrypted-page-form {
+    max-width: 100%;
+    width: 100%;
+    text-align: left;
+    align-items: stretch;
+    gap: 0;
+}
+
+.mr-paywall-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.mr-paywall-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 0.25rem 0 4.5rem 0;
+    mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 92%);
+}
+
+.mr-paywall-line {
+    height: 0.9rem;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--lightgray) 0%, var(--highlight) 50%, var(--lightgray) 100%);
+    background-size: 200% 100%;
+    animation: mr-paywall-shimmer 2.4s ease-in-out infinite;
+}
+
+@keyframes mr-paywall-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.mr-paywall-card {
+    position: relative;
+    margin-top: -4rem;
+    padding: 1.75rem 1.75rem 2rem;
+    border-radius: 10px;
+    background: var(--light);
+    border: 1px solid var(--lightgray);
+    box-shadow: 0 -12px 24px -12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.mr-paywall-card--hidden {
+    display: none !important;
+}
+
+.mr-paywall-eyebrow {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+}
+
+.mr-paywall-title {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--dark);
+}
+
+.mr-paywall-text {
+    margin: 0;
+    max-width: 32rem;
+    color: var(--darkgray);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.mr-paywall-cta {
+    display: inline-block;
+    margin-top: 0.4rem;
+    padding: 0.65rem 2.25rem;
+    border-radius: 999px;
+    background: var(--secondary);
+    color: var(--light) !important;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none !important;
+    transition: opacity 0.15s ease;
+}
+
+.mr-paywall-cta:hover {
+    opacity: 0.88;
+}
+
+.mr-paywall-sub {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: var(--gray);
+
+    a {
+        color: var(--secondary);
+        font-weight: 600;
+    }
+}
+
+.mr-paywall-manual-toggle {
+    margin-top: 0.5rem;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--gray);
+    font-size: 0.78rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 // put your custom CSS here!

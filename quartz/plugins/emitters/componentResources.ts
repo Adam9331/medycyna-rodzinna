@@ -8,6 +8,8 @@ import spaRouterScript from "../../components/scripts/spa.inline"
 import popoverScript from "../../components/scripts/popover.inline"
 // @ts-ignore
 import premiumUnlockScript from "../../components/scripts/premium-unlock.inline"
+// @ts-ignore
+import paywallUiScript from "../../components/scripts/paywall-ui.inline"
 import baseStyles from "../../styles/base.scss"
 import customStyles from "../../styles/custom.scss"
 import popoverStyle from "../../components/styles/popover.scss"
@@ -94,6 +96,9 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
 
   // paywall: cicho odblokowuje treści premium zalogowanym, aktywnym subskrybentom
   componentResources.afterDOMLoaded.push(premiumUnlockScript)
+
+  // paywall: nakłada spolszczony UI (styl mp.pl) na domyślny ekran blokady
+  componentResources.afterDOMLoaded.push(paywallUiScript)
 
   if (cfg.analytics?.provider === "google") {
     const tagId = cfg.analytics.tagId
