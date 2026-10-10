@@ -10,6 +10,8 @@ import popoverScript from "../../components/scripts/popover.inline"
 import premiumUnlockScript from "../../components/scripts/premium-unlock.inline"
 // @ts-ignore
 import paywallUiScript from "../../components/scripts/paywall-ui.inline"
+// @ts-ignore
+import skalaScript from "../../components/scripts/skala.inline"
 import baseStyles from "../../styles/base.scss"
 import customStyles from "../../styles/custom.scss"
 import popoverStyle from "../../components/styles/popover.scss"
@@ -99,6 +101,9 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
 
   // paywall: nakłada spolszczony UI (styl mp.pl) na domyślny ekran blokady
   componentResources.afterDOMLoaded.push(paywallUiScript)
+
+  // kalkulatory/skale kliniczne: bloki ```skala z Obsidiana -> interaktywny formularz
+  componentResources.afterDOMLoaded.push(skalaScript)
 
   if (cfg.analytics?.provider === "google") {
     const tagId = cfg.analytics.tagId

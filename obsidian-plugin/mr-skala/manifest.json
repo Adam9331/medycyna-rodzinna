@@ -1,0 +1,9 @@
+{
+  "id": "mr-skala",
+  "name": "Skale i kalkulatory (Medycyna Rodzinna)",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Renderuje bloki ```skala jako interaktywne kalkulatory — tak samo jak na stronie medycynarodzinna.info.",
+  "author": "Adam Dziób",
+  "isDesktopOnly": false
+}
