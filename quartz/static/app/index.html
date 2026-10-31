@@ -380,10 +380,20 @@
 
         // Usuwa link "Nie masz konta? Zarejestruj się" spod formularza logowania —
         // logowanie idzie tylko przez Google/Facebook (i e-mail), więc osobna
-        // rejestracja jest zbędna i tylko myli. Działa niezależnie od tego, jak
-        // Clerk nazwie swoje wewnętrzne klasy CSS (szuka linku po href).
+        // rejestracja jest zbędna i tylko myli. Clerk renderuje formularz w
+        // Shadow DOM, więc zwykłe querySelectorAll go nie widzi — ta wersja
+        // schodzi też do wewnątrz każdego shadowRoot, rekurencyjnie.
+        function deepQueryAll(root, selector) {
+            const found = [...root.querySelectorAll(selector)];
+            const all = root.querySelectorAll('*');
+            for (const el of all) {
+                if (el.shadowRoot) found.push(...deepQueryAll(el.shadowRoot, selector));
+            }
+            return found;
+        }
+
         function hideSignUpPrompt(root) {
-            root.querySelectorAll('a[href*="sign-up"]').forEach((a) => {
+            deepQueryAll(root, 'a[href*="sign-up"], a[href*="/sign-up"]').forEach((a) => {
                 const container = a.closest('p, div') || a;
                 container.style.display = 'none';
             });
@@ -393,6 +403,13 @@
             hideSignUpPrompt(root);
             const obs = new MutationObserver(() => hideSignUpPrompt(root));
             obs.observe(root, { childList: true, subtree: true });
+            // shadow roots nie zawsze łapią się w powyższym observerze od razu
+            // po zamontowaniu — dobijamy kilkoma sprawdzeniami w pierwszej sekundzie
+            let tries = 0;
+            const interval = setInterval(() => {
+                hideSignUpPrompt(root);
+                if (++tries > 20) clearInterval(interval);
+            }, 100);
         }
 
         async function initApp() {
@@ -421,7 +438,9 @@
                 sessionStorage.removeItem('emailVerified');
                 document.getElementById('app').innerHTML = `<div id="sign-in"></div>`;
                 const signInRoot = document.getElementById('sign-in');
-                Clerk.mountSignIn(signInRoot);
+                Clerk.mountSignIn(signInRoot, {
+                    appearance: { elements: { footerAction: { display: 'none' } } },
+                });
                 watchForSignUpPrompt(signInRoot);
             }
         }

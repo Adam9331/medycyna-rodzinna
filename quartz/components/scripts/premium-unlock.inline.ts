@@ -16,8 +16,8 @@ declare global {
   }
 }
 
-const CLERK_FRONTEND_API = "tough-walrus-9689.clerk.accounts.dev"
-const CLERK_PUBLISHABLE_KEY = "pk_test_dG91Z2gtd2FscnVzLTk2ODkuY2xlcmsuYWNjb3VudHMuZGV2JA"
+const CLERK_FRONTEND_API = "clerk.medycynarodzinna.info"
+const CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsubWVkeWN5bmFyb2R6aW5uYS5pbmZvJA"
 const CHECK_SUBSCRIPTION_URL = "https://checksubscription-zxtlz2nofa-uc.a.run.app"
 const ENCRYPTED_PAGES_PASSWORD_KEY = "encrypted-pages-passwords"
 const EMAIL_VERIFIED_KEY = "emailVerified"
