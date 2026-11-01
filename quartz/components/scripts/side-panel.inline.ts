@@ -38,10 +38,14 @@ if (!w.__sidePanelInit) {
     crumbs = panel.querySelector(".sp-crumbs")
     openFull = panel.querySelector(".sp-open")
     panel.querySelector(".sp-close")!.addEventListener("click", close)
+    for (const ev of ["wheel", "touchstart", "keydown", "mousedown"]) {
+      body!.addEventListener(ev, unpin, { passive: true })
+    }
   }
 
   const close = () => {
     stack = []
+    unpin()
     panel?.classList.remove("open")
     panel?.setAttribute("aria-hidden", "true")
     document.body.classList.remove("side-panel-open")
@@ -101,20 +105,53 @@ if (!w.__sidePanelInit) {
     })
   }
 
+  // Gdy pod nagłówkiem stoi znacznik bloku (^abc), Quartz nadaje nagłówkowi id "abc"
+  // zamiast id z tytułu — wtedy szukamy nagłówka po jego tekście (jak robi to slugger Quartza).
+  const slug = (t: string) =>
+    t
+      .toLowerCase()
+      .trim()
+      .replace(/[^\p{L}\p{N}\s_-]/gu, "")
+      .replace(/\s/g, "-")
+  const findHeadingBySlug = (root: Element, id: string): HTMLElement | null =>
+    [...root.querySelectorAll<HTMLElement>("h1,h2,h3,h4,h5,h6")].find((h) => slug(h.textContent || "") === id) ?? null
+
+  let pin: { align: () => void; until: number } | null = null
+  const resizeObserver = new ResizeObserver(() => {
+    if (pin && Date.now() < pin.until) pin.align()
+    else {
+      pin = null
+      resizeObserver.disconnect()
+    }
+  })
+  const unpin = () => {
+    pin = null
+    resizeObserver.disconnect()
+  }
+
   const scrollToHash = (hash: string) => {
+    unpin()
     if (!body) return
     if (!hash) {
       body.scrollTop = 0
       return
     }
     const id = decodeURIComponent(hash.slice(1))
-    const target = body.querySelector<HTMLElement>(`[id="${CSS.escape(id)}"]`)
+    const target = body.querySelector<HTMLElement>(`[id="${CSS.escape(id)}"]`) ?? findHeadingBySlug(body, id)
     if (!target) {
       body.scrollTop = 0
       return
     }
     // offsetTop liczy się od panelu (z nagłówkiem), więc liczymy względem .sp-body
-    body.scrollTop += target.getBoundingClientRect().top - body.getBoundingClientRect().top - 12
+    const align = () => {
+      body!.scrollTop += target.getBoundingClientRect().top - body!.getBoundingClientRect().top - 12
+    }
+    align()
+    // obrazki nad nagłówkiem doładowują się później i przesuwają treść —
+    // przez chwilę trzymamy nagłówek na górze, chyba że czytelnik sam zacznie przewijać
+    pin = { align, until: Date.now() + 4000 }
+    const content = body.firstElementChild
+    if (content) resizeObserver.observe(content)
     target.classList.add("sp-flash")
     setTimeout(() => target.classList.remove("sp-flash"), 1600)
   }
@@ -181,8 +218,9 @@ if (!w.__sidePanelInit) {
     }
     if (url.origin !== location.origin) return false
     if (SKIP_PREFIXES.some((p) => url.pathname.startsWith(p))) return false
-    // kotwica na tej samej stronie (np. spis treści) — zwykłe przewinięcie
-    if (!inPanel && url.pathname === location.pathname) return false
+    // ikonka kotwicy przy nagłówku — zwykłe przewinięcie strony
+    // (linki do tej samej notatki pisane w treści, np. [[Ból moszny#Leczenie|...]], idą do panelu)
+    if (a.getAttribute("role") === "anchor") return false
     return true
   }
 
