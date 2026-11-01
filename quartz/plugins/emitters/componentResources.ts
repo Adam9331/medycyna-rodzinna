@@ -12,6 +12,8 @@ import premiumUnlockScript from "../../components/scripts/premium-unlock.inline"
 import paywallUiScript from "../../components/scripts/paywall-ui.inline"
 // @ts-ignore
 import skalaScript from "../../components/scripts/skala.inline"
+// @ts-ignore
+import sidePanelScript from "../../components/scripts/side-panel.inline"
 import baseStyles from "../../styles/base.scss"
 import customStyles from "../../styles/custom.scss"
 import popoverStyle from "../../components/styles/popover.scss"
@@ -104,6 +106,9 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
 
   // kalkulatory/skale kliniczne: bloki ```skala z Obsidiana -> interaktywny formularz
   componentResources.afterDOMLoaded.push(skalaScript)
+
+  // panel boczny (styl Hypocampus): klik w link w treści otwiera notatkę obok
+  componentResources.afterDOMLoaded.push(sidePanelScript)
 
   if (cfg.analytics?.provider === "google") {
     const tagId = cfg.analytics.tagId

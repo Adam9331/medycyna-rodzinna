@@ -565,3 +565,139 @@ footer p:first-of-type {
 }
 
 // put your custom CSS here!
+// ===== Panel boczny (Hypocampus-style) — dopisz na koniec quartz/styles/custom.scss =====
+
+:root {
+  --sp-width: min(46vw, 760px);
+}
+
+#side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--sp-width);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  background: var(--light);
+  border-left: 1px solid var(--lightgray);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.06);
+  transform: translateX(100%);
+  transition: transform 0.22s ease;
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  &.loading .sp-body {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .sp-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--lightgray);
+    background: var(--light);
+  }
+
+  .sp-crumbs {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .sp-crumb {
+    border: 0;
+    background: none;
+    padding: 0.15rem 0.3rem;
+    border-radius: 6px;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--gray);
+    cursor: pointer;
+    max-width: 14rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      background: var(--lightgray);
+      color: var(--dark);
+    }
+
+    &.current {
+      color: var(--dark);
+      font-weight: 600;
+    }
+  }
+
+  .sp-sep {
+    color: var(--gray);
+    font-size: 0.85rem;
+  }
+
+  .sp-actions {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .sp-open,
+  .sp-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--darkgray);
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--lightgray);
+    }
+  }
+
+  .sp-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.5rem 3rem;
+    transition: opacity 0.15s;
+  }
+
+  .sp-title {
+    margin-top: 0.5rem;
+  }
+
+  // krótkie podświetlenie nagłówka, do którego przewinięto
+  .sp-flash {
+    background: var(--highlight);
+    border-radius: 6px;
+    transition: background 1.4s ease;
+  }
+}
+
+// główna treść robi miejsce na panel (tylko desktop)
+@media (min-width: 1000px) {
+  body.side-panel-open #quartz-body {
+    margin-right: var(--sp-width);
+    transition: margin-right 0.22s ease;
+  }
+}
+
+@media (max-width: 999px) {
+  #side-panel {
+    display: none;
+  }
+}
