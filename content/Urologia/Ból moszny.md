@@ -1,10 +1,14 @@
 ---
 publish: true
 created: 2024-07-12T06:12:12.191Z
-modified: 2026-08-16T08:52:07.678Z
+modified: 2026-11-01T15:52:15.985Z
+published: 2026-11-01T15:52:15.985Z
+Done: true
+"---\n![[attachments/Pasted image 20240712102200.png]]\n\n\n#powtórki #gp/urologia\ \n\n``` audio-player\ \n[[Ból moszny.mp3]]\n```\n\n[[Ból moszny#Leczenie zapalenia jądra i najądrza|zapalenie jądra antybiotyk]]\n\n\ntemat": ostra moszna, zapalenie jądera, zapalenie najądrza, objaw prehna.
+dział: "urologia "
 ---
 
-![[attachments/Pasted image 20240712102200.png]]
+![[Pasted image 20240712102200.png]]
 
 #powtórki #gp/urologia
 
@@ -12,7 +16,7 @@ modified: 2026-08-16T08:52:07.678Z
 [[Ból moszny.mp3]]
 ```
 
-Test
+[[Ból moszny#Leczenie zapalenia jądra i najądrza|zapalenie jądra antybiotyk]]
 
 temat:: ostra moszna, zapalenie jądera, zapalenie najądrza, objaw prehna.
 dział:: urologia
@@ -34,7 +38,7 @@ dział:: urologia
 
 ### Leczenie zapalenia jądra i najądrza
 
-#jądra #zapalenie #zapalenie_jądra
+#jądra #zapalenie #zapalenie_jądra ^5bhmax
 
 - zapalenie jądra (**rzeżączka** **Neiseria** gonorrhoeae→ **Ceftriakson** + **doksycyklina**) NIE stosuj fluorochinolonów
 - E coli lub Chlamydia → **chinolony**
@@ -43,7 +47,9 @@ dział:: urologia
 
 ### Skręt jądra
 
+- silny nagły ból jądra+wymioty+zaczerwienienie + obrzęk moszny
 - Skręt jądra
+- pilne USG doppler\
   Skręt jądra zwykle stwierdza się u mężczyzn <**25** r.ż., z dwoma szczytami zachorowania, tj. przed **1 r.ż**. oraz pomiędzy **13** a **17** r.ż
 - szybko szpital → cito **urologia**
 - Czynnikami predysponującymi do skrętu jądra są intensywna **aktywność** **fizyczna** (głównie **jazda** na **rowerze**) oraz **uraz** jądra (np. kopnięcie w krocze). **Może** do niego również dojść podczas **snu**
