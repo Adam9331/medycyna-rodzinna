@@ -737,25 +737,36 @@ footer p:first-of-type {
     }
 }
 
-// Przycisk logowania pod wyszukiwarką (login-button.inline.ts)
+// Przycisk logowania nad tytułem strony (login-button.inline.ts)
 .mr-login-btn {
-    display: block;
-    width: 100%;
-    margin: 0.75rem 0;
-    padding: 0.85rem 1rem;
-    border-radius: 10px;
-    background: var(--secondary);
-    color: var(--light) !important;
-    font-size: 1.05rem;
-    font-weight: 700;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 0.9rem;
+    padding: 0.35rem 0.85rem 0.35rem 0.65rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--darkgray) !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.2;
     text-decoration: none !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    transition: transform 0.15s ease, filter 0.15s ease;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+
+    svg {
+        flex: none;
+    }
 
     &:hover {
-        filter: brightness(1.1);
-        transform: translateY(-1px);
+        border-color: var(--secondary);
+        color: var(--secondary) !important;
+        background: var(--light);
+    }
+
+    &.mr-login-btn--account {
+        color: var(--secondary) !important;
+        border-color: var(--secondary);
     }
 }
 
