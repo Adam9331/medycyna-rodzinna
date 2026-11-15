@@ -20,3 +20,29 @@ wynik 0-1: Niskie ryzyko | Opis interpretacji. | zielony
 wynik 2-2: Wysokie ryzyko | Opis interpretacji. | czerwony
 zrodlo: Autor, rok
 ```
+
+## Tryb kryteriów (rozpoznania, np. ICHD-3, DSM)
+
+Zamiast punktów kalkulator pokazuje na żywo, czy kryteria są spełnione.
+
+- `rozpoznanie:` nazwa (można kilka; każde oceniane osobno)
+- `kryterium: Etykieta | min N` – wystarczy N pozycji "Tak"; `| wszystkie` lub bez wartości = każda pozycja musi być "Tak"
+- `- pozycja` pod kryterium = pytanie Tak/Nie
+- `wskazowki: Tytuł` + `wskazowka: tekst` – ramka z uwagami pod rozpoznaniem
+- `spelnione:` / `niespelnione:` – własny tekst wyniku (opcjonalnie)
+
+```skala
+skala: Nazwa kryteriów
+opis: Zaznacz cechy obecne u pacjenta.
+rozpoznanie: Nazwa rozpoznania
+kryterium: A. Warunek konieczny
+- Cecha 1
+kryterium: B. Objawy | min 2
+- Objaw 1
+- Objaw 2
+- Objaw 3
+wskazowki: Ważne
+wskazowka: Dodatkowa uwaga.
+zrodlo: Autor, rok
+```
+
