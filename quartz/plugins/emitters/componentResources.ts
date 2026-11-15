@@ -13,6 +13,7 @@ import paywallUiScript from "../../components/scripts/paywall-ui.inline"
 // @ts-ignore
 import skalaScript from "../../components/scripts/skala.inline"
 import imageZoomScript from "../../components/scripts/image-zoom.inline"
+import loginButtonScript from "../../components/scripts/login-button.inline"
 // @ts-ignore
 import sidePanelScript from "../../components/scripts/side-panel.inline"
 import baseStyles from "../../styles/base.scss"
@@ -109,6 +110,8 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
   componentResources.afterDOMLoaded.push(skalaScript)
   // powiększanie obrazków (lightbox) tylko dla pomniejszonych
   componentResources.afterDOMLoaded.push(imageZoomScript)
+  // duży przycisk logowania pod wyszukiwarką
+  componentResources.afterDOMLoaded.push(loginButtonScript)
 
   // panel boczny (styl Hypocampus): klik w link w treści otwiera notatkę obok
   componentResources.afterDOMLoaded.push(sidePanelScript)

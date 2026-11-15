@@ -737,6 +737,34 @@ footer p:first-of-type {
     }
 }
 
+// Przycisk logowania pod wyszukiwarką (login-button.inline.ts)
+.mr-login-btn {
+    display: block;
+    width: 100%;
+    margin: 0.75rem 0;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    background: var(--secondary);
+    color: var(--light) !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s ease, filter 0.15s ease;
+
+    &:hover {
+        filter: brightness(1.1);
+        transform: translateY(-1px);
+    }
+}
+
+@media print {
+    .mr-login-btn {
+        display: none !important;
+    }
+}
+
 // put your custom CSS here!
 // ===== Panel boczny (Hypocampus-style) — dopisz na koniec quartz/styles/custom.scss =====
 
