@@ -770,8 +770,43 @@ footer p:first-of-type {
     }
 }
 
+.mr-account-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: -0.4rem 0 0.9rem;
+    padding: 0.35rem;
+    max-width: 16rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 10px;
+    background: var(--light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    a,
+    button {
+        display: block;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: none;
+        border-radius: 6px;
+        background: none;
+        color: var(--darkgray) !important;
+        font: inherit;
+        font-size: 0.95rem;
+        text-align: left;
+        text-decoration: none !important;
+        cursor: pointer;
+
+        &:hover {
+            background: var(--highlight);
+            color: var(--dark) !important;
+        }
+    }
+}
+
 @media print {
-    .mr-login-btn {
+    .mr-login-btn,
+    .mr-account-menu {
         display: none !important;
     }
 }
