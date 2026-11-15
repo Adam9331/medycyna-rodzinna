@@ -409,7 +409,11 @@
                 localization: plPL,
             });
 
-            if (Clerk.isSignedIn) {
+            // Po zalogowaniu (też świeżym, bez przeładowania strony) od razu pokazujemy ekran z kodem
+            let flowStarted = false;
+            async function startSignedInFlow() {
+                if (flowStarted) return;
+                flowStarted = true;
                 const email = Clerk.user.primaryEmailAddress.emailAddress;
                 if (sessionStorage.getItem('emailVerified') === 'true') {
                     showProtectedContent();
@@ -417,11 +421,21 @@
                     document.getElementById('app').innerHTML = `<p>Wysyłanie kodu weryfikacyjnego...</p>`;
                     await sendVerificationEmail(email);
                 }
+            }
+            Clerk.addListener(({ user }) => {
+                if (user) startSignedInFlow();
+            });
+
+            if (Clerk.isSignedIn) {
+                await startSignedInFlow();
             } else {
                 sessionStorage.removeItem('emailVerified');
                 document.getElementById('app').innerHTML = `<div id="sign-in"></div>`;
                 const signInRoot = document.getElementById('sign-in');
-                Clerk.mountSignIn(signInRoot);
+                Clerk.mountSignIn(signInRoot, {
+                    // po wyborze konta wracamy od razu na tę stronę, gdzie czeka ekran z kodem
+                    forceRedirectUrl: window.location.origin + '/static/app/',
+                });
                 watchForSignUpPrompt(signInRoot);
             }
         }

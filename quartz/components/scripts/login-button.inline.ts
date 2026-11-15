@@ -3,7 +3,20 @@
 // status subskrypcji zalogowanego użytkownika, więc działa jako "Moje konto".
 
 const LOGIN_URL = "/static/app/"
-let signedIn = false
+let signedIn = hasClerkSession()
+
+// Clerk ustawia ciasteczko __client_uat (czas logowania; "0" = wylogowany),
+// więc stan sesji znamy od razu, bez czekania na załadowanie Clerka.
+function hasClerkSession(): boolean {
+  try {
+    return document.cookie
+      .split(";")
+      .map((c) => c.trim())
+      .some((c) => /^__client_uat(_[^=]+)?=/.test(c) && c.split("=")[1] !== "0")
+  } catch {
+    return false
+  }
+}
 
 function applyLabel() {
   const btn = document.querySelector<HTMLElement>(".mr-login-btn")

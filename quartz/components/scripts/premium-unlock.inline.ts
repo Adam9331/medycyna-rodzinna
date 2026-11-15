@@ -68,6 +68,8 @@ async function unlockPremiumContent() {
     await window.Clerk!.load()
 
     const session = window.Clerk!.session
+    // informuje przycisk logowania (login-button.inline.ts), czy jest sesja Clerk
+    document.dispatchEvent(new CustomEvent("mr-auth", { detail: { signedIn: !!session } }))
     if (!session) return // niezalogowany przez Clerk
     if (sessionStorage.getItem(EMAIL_VERIFIED_KEY) !== "true") return // 2FA jeszcze niepotwierdzone
 
