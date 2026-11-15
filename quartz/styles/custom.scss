@@ -126,16 +126,60 @@ mark {
     background: none;
 }
 
-// Powiększanie obrazków po najechaniu
-img {
-    transition: transform 0.2s ease;
+// Powiększanie obrazków: kliknięcie otwiera podgląd (image-zoom.inline.ts),
+// tylko dla obrazków pomniejszonych na stronie
+article img[data-zoomable="1"] {
     cursor: zoom-in;
 }
 
-img:hover {
-    transform: scale(1.8);
-    position: relative;
-    z-index: 10;
+.mr-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.88);
+    overflow: auto;
+    cursor: zoom-out;
+}
+
+.mr-lightbox-img {
+    max-width: 96vw;
+    max-height: 96vh;
+    object-fit: contain;
+    cursor: zoom-in;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.mr-lightbox--full {
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .mr-lightbox-img {
+        max-width: none;
+        max-height: none;
+        cursor: zoom-out;
+        margin: auto;
+    }
+}
+
+.mr-lightbox-close {
+    position: fixed;
+    top: 0.75rem;
+    right: 1rem;
+    border: none;
+    background: none;
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+html.mr-lightbox-open {
+    overflow: hidden;
 }
 
 // Tagi - różnokolorowe plakietki markerowe
