@@ -3,6 +3,14 @@
 // status subskrypcji zalogowanego użytkownika, więc działa jako "Moje konto".
 
 const LOGIN_URL = "/static/app/"
+let signedIn = false
+
+function applyLabel() {
+  const btn = document.querySelector<HTMLElement>(".mr-login-btn")
+  if (!btn) return
+  btn.textContent = signedIn ? "Moje konto" : "Zaloguj się"
+  btn.classList.toggle("mr-login-btn--account", signedIn)
+}
 
 function ensureButton() {
   const search = document.querySelector<HTMLElement>(".left .search, .sidebar.left .search, .search")
@@ -14,6 +22,7 @@ function ensureButton() {
   a.textContent = "Zaloguj się"
   a.setAttribute("aria-label", "Zaloguj się lub zarządzaj kontem")
   search.insertAdjacentElement("afterend", a)
+  applyLabel()
 }
 
 let scheduled = false
@@ -26,6 +35,11 @@ function schedule() {
   })
 }
 
+// stan sesji ustawia premium-unlock.inline.ts po załadowaniu Clerka
+document.addEventListener("mr-auth", (e) => {
+  signedIn = !!(e as CustomEvent<{ signedIn: boolean }>).detail?.signedIn
+  applyLabel()
+})
 document.addEventListener("nav", schedule)
 document.addEventListener("render", schedule)
 new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true })
