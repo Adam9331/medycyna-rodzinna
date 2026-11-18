@@ -12,6 +12,8 @@ import premiumUnlockScript from "../../components/scripts/premium-unlock.inline"
 import paywallUiScript from "../../components/scripts/paywall-ui.inline"
 // @ts-ignore
 import skalaScript from "../../components/scripts/skala.inline"
+import lekScript from "../../components/scripts/lek.inline"
+import sekcjeScript from "../../components/scripts/sekcje.inline"
 import imageZoomScript from "../../components/scripts/image-zoom.inline"
 import loginButtonScript from "../../components/scripts/login-button.inline"
 // @ts-ignore
@@ -108,6 +110,9 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
 
   // kalkulatory/skale kliniczne: bloki ```skala z Obsidiana -> interaktywny formularz
   componentResources.afterDOMLoaded.push(skalaScript)
+  // karty leków, kalkulator dawek i karty zaleceń: bloki ```lek i ```zalecenia z Obsidiana
+  componentResources.afterDOMLoaded.push(lekScript)
+  componentResources.afterDOMLoaded.push(sekcjeScript)
   // powiększanie obrazków (lightbox) tylko dla pomniejszonych
   componentResources.afterDOMLoaded.push(imageZoomScript)
   // duży przycisk logowania pod wyszukiwarką

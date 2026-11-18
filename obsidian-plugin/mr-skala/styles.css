@@ -341,3 +341,698 @@
     display: none !important;
   }
 }
+
+/* Karty leków i zalecenia: paleta strony medycynarodzinna.info (jasna) */
+.mr-drug,
+.mr-rec {
+  --light: #fbfaf7;
+  --lightgray: #e8e4dc;
+  --gray: #a8a29a;
+  --darkgray: #4a463f;
+  --dark: #26231f;
+  --secondary: #1e5f6e;
+  --highlight: rgba(30, 95, 110, 0.12);
+}
+
+/* Odporność na motyw Obsidiana: stała czcionka, brak stylów przycisków/nagłówków motywu */
+.block-language-lek,
+.block-language-zalecenia {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+.mr-drug,
+.mr-drug *,
+.mr-rec,
+.mr-rec * {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+  font-variant: normal !important;
+}
+.mr-drug button,
+.mr-rec button,
+.mr-drug a.mr-drug-btn {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  min-height: 0 !important;
+  height: auto !important;
+  line-height: 1.3 !important;
+  text-decoration: none !important;
+}
+.mr-drug input,
+.mr-rec input {
+  box-shadow: none !important;
+  height: auto !important;
+}
+.mr-drug h4,
+.mr-rec h4 {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  text-transform: none !important;
+}
+
+.mr-drug,
+.mr-rec {
+  --mr-card-bg: #ffffff !important;
+  --mr-card-border: #e6e6e6 !important;
+  --mr-ok: #3f9a5b !important;
+  --mr-warn: #d97a2b !important;
+  --mr-bad: #c9434a !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 760px !important;
+  margin: 1rem 0 !important;
+  padding: 0.8rem 1.1rem !important;
+  border: 1px solid var(--mr-card-border) !important;
+  border-radius: 16px !important;
+  background: var(--mr-card-bg) !important;
+  color: var(--dark) !important;
+}
+.mr-drug *,
+.mr-rec * {
+  box-sizing: border-box !important;
+}
+
+.mr-drug-head,
+.mr-rec-head {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 0.75rem !important;
+}
+
+.mr-drug-title {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.7rem !important;
+  min-width: 0 !important;
+}
+
+.mr-drug-titles {
+  min-width: 0 !important;
+}
+
+.mr-drug-namerow {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.35rem 0.7rem !important;
+}
+
+.mr-drug-badge {
+  flex: none !important;
+  margin-top: 0.2rem !important;
+  padding: 0.25rem 0.7rem !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  border: 1px solid var(--mr-card-border) !important;
+  color: var(--darkgray) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+.mr-ico {
+  flex: none !important;
+  width: 1.05em !important;
+  height: 1.05em !important;
+}
+
+.mr-drug-copy-main {
+  display: inline-flex !important;
+  flex: none !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  padding: 0.28rem 0.75rem !important;
+  border: 1px solid var(--dark) !important;
+  border-radius: 999px !important;
+  background: var(--dark) !important;
+  color: var(--light) !important;
+  font: inherit !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: opacity 0.15s ease !important;
+}
+.mr-drug-copy-main:hover {
+  opacity: 0.85 !important;
+}
+.mr-drug-copy-main:focus-visible {
+  outline: 2px solid var(--secondary) !important;
+  outline-offset: 2px !important;
+}
+.mr-drug-copy-main[data-state=copied] {
+  background: var(--mr-ok) !important;
+  border-color: var(--mr-ok) !important;
+  color: #fff !important;
+}
+.mr-drug-copy-main[data-state=failed] {
+  background: var(--mr-bad) !important;
+  border-color: var(--mr-bad) !important;
+  color: #fff !important;
+}
+
+.mr-drug-name,
+.mr-rec-title {
+  margin: 0 !important;
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  color: var(--dark) !important;
+}
+
+.mr-drug-substance {
+  margin: 0.1rem 0 0 !important;
+  font-size: 0.95rem !important;
+  font-style: italic !important;
+  font-weight: 500 !important;
+  color: var(--secondary) !important;
+}
+
+.mr-drug-dosing-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.4rem 0.75rem !important;
+  margin-top: 0.35rem !important;
+}
+
+.mr-drug-dosing {
+  margin: 0 !important;
+  flex: 1 1 14rem !important;
+  font-size: 0.98rem !important;
+}
+
+.mr-drug-toggles,
+.mr-rec-actions,
+.mr-drug-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+}
+
+.mr-drug-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+  padding: 0.25rem 0.1rem !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--gray) !important;
+  font: inherit !important;
+  font-size: 0.95rem !important;
+  cursor: pointer !important;
+}
+.mr-drug-toggle:hover {
+  color: var(--dark) !important;
+}
+.mr-drug-toggle:focus-visible {
+  outline: 2px solid var(--secondary) !important;
+  outline-offset: 2px !important;
+}
+
+.mr-drug-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  padding: 0.4rem 0.85rem !important;
+  border-radius: 999px !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+}
+
+.mr-drug-info-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin-top: 0.6rem !important;
+  padding: 0.4rem 0.8rem !important;
+  border: 1px solid var(--mr-card-border) !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: var(--dark) !important;
+  font: inherit !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  transition: border-color 0.15s ease, background 0.15s ease !important;
+}
+.mr-drug-info-toggle .mr-ico {
+  width: 1.25em !important;
+  height: 1.25em !important;
+  stroke-width: 2.5 !important;
+  color: var(--secondary) !important;
+}
+.mr-drug-info-toggle:hover, .mr-drug-info-toggle[aria-expanded=true] {
+  border-color: var(--secondary) !important;
+}
+.mr-drug-info-toggle:focus-visible {
+  outline: 2px solid var(--secondary) !important;
+  outline-offset: 2px !important;
+}
+
+.mr-drug-info-hint {
+  margin-left: 1.1rem !important;
+  color: var(--secondary) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+}
+
+.mr-drug-info {
+  padding: 0.4rem 0.1rem 0.2rem !important;
+  color: var(--darkgray) !important;
+}
+.mr-drug-info[hidden] {
+  display: none !important;
+}
+
+.mr-drug-info-list {
+  margin: 0 0 0.6rem !important;
+  padding-left: 1.2rem !important;
+  font-size: 0.92rem !important;
+  line-height: 1.5 !important;
+}
+.mr-drug-info-list li {
+  margin: 0.15rem 0 !important;
+}
+
+.mr-drug-info-link {
+  color: var(--secondary) !important;
+  text-decoration: underline !important;
+}
+
+.mr-drug-info-text {
+  margin: 0 0 0.6rem !important;
+  font-size: 0.92rem !important;
+  line-height: 1.5 !important;
+}
+
+.mr-drug-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  padding: 0.28rem 0.7rem !important;
+  border: 1px solid var(--mr-card-border) !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: var(--darkgray) !important;
+  font: inherit !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease !important;
+}
+.mr-drug-btn:hover:not(:disabled) {
+  border-color: var(--secondary) !important;
+  color: var(--secondary) !important;
+}
+.mr-drug-btn:focus-visible {
+  outline: 2px solid var(--secondary) !important;
+  outline-offset: 2px !important;
+}
+.mr-drug-btn:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+}
+.mr-drug-btn[data-state=copied] {
+  border-color: var(--mr-ok) !important;
+  color: var(--mr-ok) !important;
+}
+.mr-drug-btn[data-state=failed] {
+  border-color: var(--mr-bad) !important;
+  color: var(--mr-bad) !important;
+}
+.mr-drug-btn.is-open {
+  border-color: var(--secondary) !important;
+  color: var(--secondary) !important;
+}
+
+.mr-drug-more {
+  margin-top: 0.7rem !important;
+  padding-top: 0.8rem !important;
+  border-top: 1px solid var(--mr-card-border) !important;
+}
+
+.mr-drug-section-title {
+  margin: 0.5rem 0 0.35rem !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--gray) !important;
+}
+
+.mr-calc {
+  margin-top: 0.6rem !important;
+  padding: 0.7rem 0.75rem !important;
+  border: 1px solid var(--mr-card-border) !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  font-size: 0.92rem !important;
+}
+
+.mr-calc[hidden],
+.mr-drug-more[hidden],
+.mr-calc-badge[hidden],
+.mr-calc-warn[hidden] {
+  display: none !important;
+}
+
+.mr-calc-fatal {
+  margin: 0 !important;
+  color: var(--mr-bad) !important;
+  font-weight: 600 !important;
+}
+
+.mr-calc-mode {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.25rem 0.9rem !important;
+  margin: 0 0 0.5rem !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.mr-calc-legend {
+  float: left !important;
+  margin-right: 0.6rem !important;
+  padding: 0 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  color: var(--gray) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.mr-calc-mode-opt {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+}
+
+.mr-calc-warn {
+  margin: 0 0 0.5rem !important;
+  padding: 0.35rem 0.6rem !important;
+  border-left: 4px solid var(--mr-warn) !important;
+  border-radius: 4px !important;
+  background: var(--mr-card-bg) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+}
+
+.mr-calc-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.35rem 0.5rem !important;
+  margin: 0.35rem 0 !important;
+}
+
+.mr-calc-rowlabel {
+  font-size: 0.82rem !important;
+  color: var(--darkgray) !important;
+}
+
+.mr-calc-op {
+  color: var(--gray) !important;
+  font-weight: 700 !important;
+}
+
+.mr-calc-field {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+}
+
+.mr-calc-sr {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
+.mr-calc-input {
+  width: 4.6rem !important;
+  max-width: 100% !important;
+  padding: 0.3rem 0.45rem !important;
+  border: 1px solid var(--mr-card-border) !important;
+  border-radius: 7px !important;
+  background: var(--mr-card-bg) !important;
+  color: var(--dark) !important;
+  font: inherit !important;
+  font-weight: 600 !important;
+  text-align: right !important;
+}
+.mr-calc-input:focus-visible {
+  outline: 2px solid var(--secondary) !important;
+  outline-offset: 1px !important;
+}
+.mr-calc-input.is-invalid {
+  border-color: var(--mr-bad) !important;
+}
+
+.mr-calc-unit {
+  font-size: 0.82rem !important;
+  color: var(--darkgray) !important;
+}
+
+.mr-calc-hint {
+  margin: 0 0 0.4rem !important;
+  font-size: 0.75rem !important;
+  color: var(--gray) !important;
+}
+
+.mr-calc-results {
+  width: 100% !important;
+  margin: 0.4rem 0 !important;
+  border-collapse: collapse !important;
+  table-layout: fixed !important;
+  text-align: center !important;
+}
+.mr-calc-results th,
+.mr-calc-results td {
+  padding: 0.3rem 0.4rem !important;
+  border: 1px solid var(--mr-card-border) !important;
+  background: var(--mr-card-bg) !important;
+}
+.mr-calc-results th {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  color: var(--gray) !important;
+}
+.mr-calc-results td {
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: var(--dark) !important;
+}
+
+.mr-calc-scheme,
+.mr-calc-formula {
+  margin: 0.15rem 0 !important;
+  font-size: 0.78rem !important;
+  color: var(--darkgray) !important;
+}
+
+.mr-calc-msgs {
+  margin: 0.3rem 0 !important;
+}
+
+.mr-calc-msg {
+  margin: 0.25rem 0 !important;
+  padding: 0.3rem 0.6rem !important;
+  border-left: 4px solid var(--gray) !important;
+  border-radius: 4px !important;
+  background: var(--mr-card-bg) !important;
+  font-size: 0.84rem !important;
+}
+.mr-calc-msg--error, .mr-calc-msg--block {
+  border-left-color: var(--mr-bad) !important;
+  font-weight: 600 !important;
+}
+.mr-calc-msg--info {
+  border-left-color: var(--mr-warn) !important;
+}
+
+.mr-calc-ready {
+  margin-top: 0.5rem !important;
+  padding: 0.5rem 0.7rem !important;
+  border: 1px solid var(--secondary) !important;
+  border-radius: 10px !important;
+  background: var(--mr-card-bg) !important;
+}
+
+.mr-calc-ready-text {
+  margin: 0 0 0.4rem !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+}
+.mr-calc-ready-text.is-blocked {
+  color: var(--mr-bad) !important;
+  text-decoration: line-through !important;
+}
+
+.mr-calc-foot {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.4rem !important;
+  margin-top: 0.5rem !important;
+}
+
+.mr-calc-badge {
+  padding: 0.1rem 0.5rem !important;
+  border-radius: 999px !important;
+  background: var(--mr-warn) !important;
+  color: #fff !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+}
+
+.mr-calc-disclaimer {
+  margin: 0.5rem 0 0 !important;
+  font-size: 0.72rem !important;
+  color: var(--gray) !important;
+}
+
+.mr-rec-body {
+  margin-top: 0.55rem !important;
+  padding: 0.6rem 0.8rem !important;
+  border: 1px solid var(--mr-card-border) !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  font-size: 0.95rem !important;
+}
+.mr-rec-body.is-collapsed {
+  position: relative !important;
+  max-height: 7.5rem !important;
+  overflow: hidden !important;
+}
+.mr-rec-body.is-collapsed::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: auto 0 0 0 !important;
+  height: 2.5rem !important;
+  background: linear-gradient(to bottom, transparent, var(--mr-card-bg)) !important;
+  pointer-events: none !important;
+}
+
+.mr-rec-line {
+  margin: 0.3rem 0 !important;
+  line-height: 1.5 !important;
+}
+.mr-rec-line--num {
+  display: flex !important;
+  gap: 0.5rem !important;
+}
+
+.mr-rec-num {
+  flex: none !important;
+  min-width: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--secondary) !important;
+}
+
+.mr-rec-gap {
+  height: 0.5rem !important;
+}
+
+@media (max-width: 520px) {
+  .mr-drug,
+  .mr-rec {
+    padding: 0.6rem 0.7rem !important;
+  }
+  .mr-calc-input {
+    width: 4rem !important;
+  }
+  .mr-calc-results th {
+    font-size: 0.66rem !important;
+  }
+  .mr-calc-results td {
+    font-size: 0.95rem !important;
+  }
+}
+@media print {
+  .mr-drug-btn,
+  .mr-drug-toggles,
+  .mr-rec-actions {
+    display: none !important;
+  }
+  .mr-drug-more,
+  .mr-calc {
+    display: block !important;
+  }
+  .mr-rec-body.is-collapsed {
+    max-height: none !important;
+  }
+  .mr-rec-body.is-collapsed::after {
+    display: none !important;
+  }
+}
+
+/* Przyciski „Rozwiń wszystko / Zwiń wszystko” (sekcje.ts) – samo zwijanie robi natywna funkcja Obsidiana */
+.mr-sec-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.6rem 0 0.3rem;
+}
+.mr-sec-bar-btn {
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+}
+.mr-sec-bar-btn:hover {
+  border-color: var(--interactive-accent);
+  color: var(--text-normal);
+}
+@media print {
+  .mr-sec-bar {
+    display: none;
+  }
+}
+
+/* Zalecenia: **pogrubienie** zawsze czarne, niezależnie od motywu Obsidiana */
+.mr-drug strong,
+.mr-drug b,
+.mr-rec strong,
+.mr-rec b {
+  color: #000000 !important;
+  font-weight: 700 !important;
+  background: none !important;
+}
+
+.mr-drug-route {
+  display: block !important;
+  margin-top: 0.15rem !important;
+  font-size: 0.85rem !important;
+  color: #6b6b6b !important;
+}
+.mr-drug-route strong {
+  font-weight: 600 !important;
+  color: #6b6b6b !important;
+}
